@@ -102,7 +102,7 @@ d3.select("#specialRateButton")
 function PTCheck(discipline){
 		//Add 24hr note if PT
 		if(discipline == "PT"){
-			DocID("preSpace").innerHTML = '<p style="margin: 0px; padding: 0px; color: #000000; font-family: tahoma; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; widows: 1; font-size: 10pt; word-wrap: break-word;"><span style="font-family: tahoma, arial, helvetica, sans-serif; font-size: 12pt;"> </span></p>'
+			DocID("preSpace").innerHTML = '<p class="normalP> </span></p>'
 			DocID("PTnote").innerHTML = "PLEASE MAKE SURE TO SEE PATIENT WITHIN 24 HOURS"
 			DocID("postSpace").innerHTML ='<p style="margin: 0px; padding: 0px; color: #000000; font-family: tahoma; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; widows: 1; font-size: 10pt; word-wrap: break-word;"><span style="font-family: tahoma, arial, helvetica, sans-serif; font-size: 12pt;"> </span></p>'
 		} else{
