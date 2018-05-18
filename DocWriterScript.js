@@ -1,42 +1,91 @@
-var saveSOCday;
-var isAdmit = null;
-	//shorthand functions//
-	function DocID(id){ return document.getElementById(id); }
-	function DocName(name){	return document.getElementsByName(name);}
-	//*******************//
+//shorthand functions//
+function DocID(id){ return document.getElementById(id); }
+function DocName(name){	return document.getElementsByName(name);}
+//*******************//
+
+//toggles
+var isAdmit = null; 
+var onBlur = true;  //toggle for automatic updating of individual fields
+
+
+//individual variables
+
+/* Section 1: Pre-Admit / Admit */
 
 //d3 code for dynamic button selections
-	d3.select("#preAdmitButton")
-		.on("click", function(){
-			d3.select(this)
-				.transition().duration(500)
-				.style("background-color", "blue");
-			d3.select("#admitButton")
-				.transition().duration(500)
-				.style("background-color", "grey");
-			d3.select("#patientInput")
-				.transition().duration(300)
-				.style("background-color", "#87CEEB");
-			isAdmit = false;
-			AdmitCheck();
-		});
+d3.select("#preAdmitButton")
+	.on("click", function(){
+		d3.select(this)
+            .transition().duration(500)
+            .style("background-color", "blue");
+        d3.select("#admitButton")
+            .transition().duration(500)
+            .style("background-color", "grey");
+        d3.select("#patientInput")
+            .transition().duration(300)
+			.style("background-color", "#87CEEB");
+        isAdmit = false;
+        AdmitCheck();
+    });
 		
-	d3.select("#admitButton")
-		.on("click", function(){
-			d3.select(this)
-				.transition().duration(500)
-				.style("background-color", "green");
-			d3.select("#preAdmitButton")
-				.transition().duration(500)
-				.style("background-color", "grey");
-			d3.select("#patientInput")
-				.transition().duration(300)
-				.style("background-color", "#3CBC8D");
-			isAdmit = true;
-			AdmitCheck();
-		});
-		
-	function PTCheck(discipline){
+d3.select("#admitButton")
+    .on("click", function(){
+        d3.select(this)
+            .transition().duration(500)
+            .style("background-color", "green");
+        d3.select("#preAdmitButton")
+            .transition().duration(500)
+            .style("background-color", "grey");
+        d3.select("#patientInput")
+            .transition().duration(300)
+            .style("background-color", "#3CBC8D");
+        isAdmit = true;
+        AdmitCheck();
+    });
+
+/* Section : Rate Selection*/
+d3.select("#socRateButton")
+    .on("click", function(){
+        d3.select(this)
+            .transition().duration(1000)
+            .style("background-color", "red");
+        d3.select("#socCancelButton")
+            .transition().duration(500)
+            .style("background-color", "grey");
+        d3.select("#specialRateButton")
+            .transition().duration(300)
+            .style("background-color", "gray");
+    })
+
+d3.select("#socCancelButton")
+    .on("click", function(){
+        d3.select(this)
+            .transition().duration(1000)
+            .style("background-color", "red")
+            .transition().duration(1000)
+            .style("background-color", "grey");
+        d3.select("#socRateButton")
+            .transition().duration(500)
+            .style("background-color", "grey");
+        d3.select("#specialRateButton")
+            .transition().duration(300)
+            .style("background-color", "gray");
+    })
+
+d3.select("#specialRateButton")
+    .on("click", function(){
+        d3.select(this)
+            .transition().duration(1000)
+            .style("background-color", "red");
+        d3.select("#socCancelButton")
+            .transition().duration(500)
+            .style("background-color", "grey");
+        d3.select("#socRateButton")
+            .transition().duration(300)
+            .style("background-color", "gray");
+    })
+
+function PTCheck(discipline){
 		//Add 24hr note if PT
 		if(discipline == "PT"){
 			DocID("preSpace").innerHTML = '<p style="margin: 0px; padding: 0px; color: #000000; font-family: tahoma; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; widows: 1; font-size: 10pt; word-wrap: break-word;"><span style="font-family: tahoma, arial, helvetica, sans-serif; font-size: 12pt;"> </span></p>'
@@ -49,12 +98,6 @@ var isAdmit = null;
 		}
 	}
 	DocName("Notes")[0].addEventListener("keypress", EnterKey);
-	
-	//function to add a new line into the notes section.
-	function EnterKey(event){
-		console.log(event.keyCode);
-		if(event.keyCode == 13) DocName("Notes")[0].value += "<br>";
-	}
 	
 	function AdmitCheck(){
 		switch(isAdmit){
@@ -118,7 +161,6 @@ var isAdmit = null;
 	}
 	function SubmitSOC(){
 		DocID("SOCDate").innerHTML = DocName("SOCDate")[0].value;
-		saveSOCday = DocName("SOCDate")[0].value;
 	}
 	function SubmitAuthorization(){
 		document.getElementById("Auth").innerHTML = (DocName("Auth")[1].value =="" || DocName("Auth")[0].value == ""? " ": '- Authorized from ' + document.getElementsByName("Auth")[0].value + ' until ' + document.getElementsByName("Auth")[1].value);
@@ -149,3 +191,9 @@ var isAdmit = null;
 		SpecialRate();
 		SubmitRecipient();
 	}
+
+/*Helper Functions*/
+function EnterKey(event){ //function to add a new line into the notes section.
+	console.log(event.keyCode);
+	if(event.keyCode == 13) DocName("Notes")[0].value += "<br>";
+}
