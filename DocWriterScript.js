@@ -9,7 +9,8 @@ var onBlur = true;  //toggle for automatic updating of individual fields
 
 
 //individual variables
-
+var notes_value = "";
+var specialRate_selection = null;
 /* Section 1: Pre-Admit / Admit */
 
 //d3 code for dynamic button selections
@@ -55,6 +56,10 @@ d3.select("#socRateButton")
         d3.select("#specialRateButton")
             .transition().duration(300)
             .style("background-color", "gray");
+        d3.select("#specialRateTextid")
+            .attr("hidden", true)
+        specialRate_selection = "SOC Rate";
+        SubmitRate();
     })
 
 d3.select("#socCancelButton")
@@ -70,6 +75,10 @@ d3.select("#socCancelButton")
         d3.select("#specialRateButton")
             .transition().duration(300)
             .style("background-color", "gray");
+        d3.select("#specialRateTextid")
+            .attr("hidden", true);
+        specialRate_selection = null;
+        SubmitRate();
     })
 
 d3.select("#specialRateButton")
@@ -83,6 +92,11 @@ d3.select("#specialRateButton")
         d3.select("#socRateButton")
             .transition().duration(300)
             .style("background-color", "gray");
+        d3.select("#specialRateTextid")
+            .transition().duration(500)
+            .attr("hidden", null);
+        specialRate_selection = "Special Rate";
+        SubmitRate();
     })
 
 function PTCheck(discipline){
@@ -166,21 +180,33 @@ function PTCheck(discipline){
 		document.getElementById("Auth").innerHTML = (DocName("Auth")[1].value =="" || DocName("Auth")[0].value == ""? " ": '- Authorized from ' + document.getElementsByName("Auth")[0].value + ' until ' + document.getElementsByName("Auth")[1].value);
 	}
 	function SubmitNotes(){
-		DocID("notes").innerHTML = DocName("Notes")[0].value;
-		if(DocName("SpecialRate")[0].checked == true)DocID("notes").innerHTML += "<br> <span style='color: red;' >" + DocName("SpecialRate")[0].value + "</span>";
-	}
-	
+        if(onBlur==false){} else{
+            DocID("notes").innerHTML = DocName("Notes")[0].value;
+            SubmitRate();
+        }
+    }
 	function SubmitRecipient(){
 		DocID("recipient").innerHTML = DocName("Recipient")[0].value;
 	}
-	function SpecialRate(){
-		if(DocName("SpecialRate")[0].checked == true){
-			DocID("notes").innerHTML = DocName("Notes")[0].value;
-			DocID("notes").innerHTML += "<br> <span style='color: red;' >" + DocName("SpecialRate")[0].value + "</span>";
-		} else SubmitNotes();
+	function SubmitRate(){
+        switch(specialRate_selection){
+            case "SOC Rate":
+                DocID("notes").innerHTML = DocName("Notes")[0].value;
+                DocID("notes").innerHTML += "<br> <span style='color: red;' >" + specialRate_selection + "</span>";
+                break;
+            case null:
+                DocID("notes").innerHTML = DocName("Notes")[0].value;
+                break;
+            case "Special Rate":
+                DocID("notes").innerHTML = DocName("Notes")[0].value;
+                DocID("notes").innerHTML += "<br> <span style='color: red;' >" + DocID("specialRateTextid").value + "</span>";
+                break;
+        }
 	}
 	
 	function SubmitAll(){
+        if(isAdmit==null)alert("Select Admittion Status.")
+        onBlur = true;
 		SubmitPatientName();
 		SubmitDiscipline();
 		SubmitOrder();
@@ -188,7 +214,7 @@ function PTCheck(discipline){
 		SubmitVisits();
 		SubmitAuthorization();
 		SubmitNotes();
-		SpecialRate();
+		SubmitRate();
 		SubmitRecipient();
 	}
 

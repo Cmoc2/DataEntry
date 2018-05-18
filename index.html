@@ -1,4 +1,6 @@
-  
+<html>
+    <head>
+      <title>Data Entry</title>
   <style>
 	body{
 		background: url("lightFocusBrushBackground.jpg");
@@ -45,6 +47,7 @@
         word-wrap: break-word;
       }
   </style>
+</head>
 <body>
     <button type="button" id="preAdmitButton" class="button">Pre-Admit</button>
 	<button type="button" id="admitButton" class="button">Admitted</button><br>
@@ -67,7 +70,7 @@
   Notes:<textarea name="Notes" onblur='SubmitNotes()' rows=3 placeholder="Enter Notes here"></textarea><br>
    <button type="button" id="socCancelButton" name="rateButton_name" class="button">None</button>
   <button type="button" id="socRateButton" name="rateButton_name" class="button">SOC Rate</button>
-  <button type="button" id="specialRateButton" name="rateButton_name" class="button">Special Rate</button><input id ="specialRateTextid" style="padding: 10px; margin-left: 3px;"type="text" placeholder="+50">
+  <button type="button" id="specialRateButton" name="rateButton_name" class="button">Special Rate</button><input id ="specialRateTextid" style="padding: 10px; margin-left: 3px;"type="text" placeholder="+50" onblur='SubmitRate()' hidden>
   <br>
   Recipient: <input type="text" name="Recipient" onblur='SubmitRecipient()'><br><br>
   <input type="button" onclick="SubmitAll()" value="Submit">
@@ -94,3 +97,4 @@
 <script src="DocWriterScript.js"></script>
 	
 </body>
+</html>
