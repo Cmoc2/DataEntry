@@ -11,6 +11,7 @@ var onBlur = true;  //toggle for automatic updating of individual fields
 //individual variables
 var notes_value = "";
 var specialRate_selection = null;
+var fileIn = "";
 /* Section 1: Pre-Admit / Admit */
 
 //d3 code for dynamic button selections
@@ -99,6 +100,11 @@ d3.select("#specialRateButton")
         SubmitRate();
     })
 
+    //read in Patient Information with D3
+    d3.csv(fileIn, function(data){
+    	console.log(data[0]);
+    })
+
 function PTCheck(discipline){
 		//Add 24hr note if PT
 		if(discipline == "PT"){
@@ -150,7 +156,17 @@ function PTCheck(discipline){
 		return colorCode;
 	}
 	function SubmitPatientName(){
-		DocID("patientName").innerHTML = DocName("Patient")[0].value;
+		//Path A: Devero ID
+		if(Number.isInteger(Number(DocName("Patient")[0].value))){
+			var a = ParseDeveroID();
+			console.log("Devero ID");
+			console.log(a["Devero ID"]);
+		}
+		//Path B: Patient Name
+		else{ 
+			DocID("patientName").innerHTML = DocName("Patient")[0].value;
+			console.log("Patient Name")
+		}
 	}
 	function SubmitDiscipline(){
 		PTCheck(document.querySelector('input[name="Discipline"]:checked').value);
@@ -222,4 +238,12 @@ function PTCheck(discipline){
 function EnterKey(event){ //function to add a new line into the notes section.
 	console.log(event.keyCode);
 	if(event.keyCode == 13) DocName("Notes")[0].value += "<br>";
+}
+
+function ParseDeveroID(){
+	return {
+		"Devero ID": 12345,
+		"Patient Name": "Hello World",
+		"Care Coordinator": "Care Coordinator"
+	};
 }
