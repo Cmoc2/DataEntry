@@ -11,7 +11,7 @@ var onBlur = true;  //toggle for automatic updating of individual fields
 //individual variables
 var notes_value = "";
 var specialRate_selection = null;
-var fileIn = "";
+var fileIn = "/patientData.csv";
 /* Section 1: Pre-Admit / Admit */
 
 //d3 code for dynamic button selections
@@ -100,15 +100,16 @@ d3.select("#specialRateButton")
         SubmitRate();
     })
 
-    //read in Patient Information with D3
-    d3.csv(fileIn, function(data){
-    	console.log(data[0]);
-    })
+    //read in Patient Information with D3. Saved in variable.
+    var fileInData;
+    d3.csv(fileIn).then(function(data){
+    	fileInData = data;
+    });
 
 function PTCheck(discipline){
 		//Add 24hr note if PT
 		if(discipline == "PT"){
-			DocID("preSpace").innerHTML = '<p class="normalP> </span></p>'
+			DocID("preSpace").innerHTML = '<p class="normalP"> </p>'
 			DocID("PTnote").innerHTML = "PLEASE MAKE SURE TO SEE PATIENT WITHIN 24 HOURS"
 			DocID("postSpace").innerHTML ='<p style="margin: 0px; padding: 0px; color: #000000; font-family: tahoma; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; widows: 1; font-size: 10pt; word-wrap: break-word;"><span style="font-family: tahoma, arial, helvetica, sans-serif; font-size: 12pt;"> </span></p>'
 		} else{
@@ -158,14 +159,20 @@ function PTCheck(discipline){
 	function SubmitPatientName(){
 		//Path A: Devero ID
 		if(Number.isInteger(Number(DocName("Patient")[0].value))){
-			var a = ParseDeveroID();
-			console.log("Devero ID");
-			console.log(a["Devero ID"]);
+			var a = ParseDeveroID(fileInData, Number(DocName("Patient")[0].value));
+			if(a != null){
+				DocID("patientInputCode").innerHTML = "<green>Match Found.</green>";
+				DocID("patientName").innerHTML = a.Name;
+				DocID("test").innerHTML = "Please report to " + a.Coordinator + ".";
+			} else{
+				console.error("Devero ID Match Not Found.")
+				DocID("patientInputCode").innerHTML = "<red> Match Not Found.</red>";
+			}
 		}
 		//Path B: Patient Name
 		else{ 
+			DocID("patientInputCode").innerHTML = "";
 			DocID("patientName").innerHTML = DocName("Patient")[0].value;
-			console.log("Patient Name")
 		}
 	}
 	function SubmitDiscipline(){
@@ -232,6 +239,8 @@ function PTCheck(discipline){
 		SubmitNotes();
 		SubmitRate();
 		SubmitRecipient();
+
+		//add functionality for clipboard.js
 	}
 
 /*Helper Functions*/
@@ -240,10 +249,14 @@ function EnterKey(event){ //function to add a new line into the notes section.
 	if(event.keyCode == 13) DocName("Notes")[0].value += "<br>";
 }
 
-function ParseDeveroID(){
-	return {
-		"Devero ID": 12345,
-		"Patient Name": "Hello World",
-		"Care Coordinator": "Care Coordinator"
-	};
+function ParseDeveroID(data, monkeyInput){
+	console.log(monkeyInput);
+	var x = null;
+	for(var i = 0; i < data.length; i++){
+		if(Number(data[i]["DeveroID"]) == monkeyInput){
+			console.log("Match Found.");
+			return data[i];
+		}
+	}
+	return null;
 }
