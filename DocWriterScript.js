@@ -11,7 +11,7 @@ var onBlur = true;  //toggle for automatic updating of individual fields
 //individual variables
 var notes_value = "";
 var specialRate_selection = null;
-var fileIn = "/patientData.csv";
+var fileIn = "/patientData20180928.csv";
 /* Section 1: Pre-Admit / Admit */
 
 //d3 code for dynamic button selections
@@ -162,8 +162,9 @@ function PTCheck(discipline){
 			var a = ParseDeveroID(fileInData, Number(DocName("Patient")[0].value));
 			if(a != null){
 				DocID("patientInputCode").innerHTML = "<green>Match Found.</green>";
-				DocID("patientName").innerHTML = a.Name;
-				DocID("test").innerHTML = "Please report to " + a.Coordinator + ".";
+				console.log(a);
+				DocID("patientName").innerHTML = a.Patient;
+				DocID("test").innerHTML = "Please report to " + a.Agency + ".";
 			} else{
 				console.error("Devero ID Match Not Found.")
 				DocID("patientInputCode").innerHTML = "<red> Match Not Found.</red>";
