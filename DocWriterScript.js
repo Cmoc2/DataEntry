@@ -261,3 +261,53 @@ function ParseDeveroID(data, monkeyInput){
 	}
 	return null;
 }
+
+function LA_Coordinator(x){
+	switch(x){
+		case 0:
+		case 4:
+			return "Darwin";
+			break;
+		case 1:
+		case 5:
+		case 6:
+			return "Marissa";
+			break;
+		case 2:
+		case 3:
+			return "Klarizza";
+			break;
+		default: 
+			alert("Some Kind of error in function LA_Coordinator");
+			return "";
+	}
+}
+
+function Find_Branch(x){
+	switch(x.Team){
+		case "COM KP Panorama":
+		case "COM KP Woodland Hills":
+			return "Andrea Aquino"
+			break;
+		case: "COM KP Los Angeles":
+			return LA_Coordinator(x);
+			break;
+		case: "COM KP Baldwin Park"
+			return BP_Coordinator(x);
+			break;
+		case: "COM KP South Bay":
+			return "Jann";
+			break;
+		case: "COM KP Fontana":
+			return "Marcela";
+			break;
+		case: "COM KP Downey":
+			return "Catherine";
+			break;
+		case: "COM Caremore":
+			return "Jovana"
+			break;
+		default:
+			alert("Some Kind of error in function Find_Branch");
+			return "";
+}
