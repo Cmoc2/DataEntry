@@ -1,37 +1,31 @@
 <html>
-  <head>
-    <title>Data Entry</title>
-    <style>
-      body{
-		    background: url("lightFocusBrushBackground.jpg");
-		    background-size: cover;
-		  }
-      
-      red{
-		    color: red;
-      }
-      
-      green{
-        color: green;
-      }
-      .button {
-    		background-color: #4CAF50; /* Green */
-    		background-color: gray;
-    		border: none;
-    		color: white;
-    		padding: 10px 22px;
-    		text-align: center;
-    		text-decoration: none;
-    		display: inline-block;
-    		font-size: 16px;
-    	}
+    <head>
+      <title>Data Entry</title>
+  <style>
+	body{
+		background: url("lightFocusBrushBackground.jpg");
+		background-size: cover;
+		}
+	red{
+		color: red;}
+	.button {
+		background-color: #4CAF50; /* Green */
+		background-color: gray;
+		border: none;
+		color: white;
+		padding: 10px 22px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 16px;
+	}
     
-    	#patientInput{
-            margin: 7px;
-    		background-color: #C0C0C0;
-    	}
-          
-      .normalP{
+	#patientInput{
+        margin: 7px;
+		background-color: #C0C0C0;
+	}
+      
+    .normalP{
         margin: 0px; 
         padding: 0px; 
         color: #000000; 
@@ -52,15 +46,12 @@
         widows: 1; 
         word-wrap: break-word;
       }
-    </style>
+  </style>
 </head>
 <body>
-  <input id="monkeyCSVInput" type="file" accept=".csv" onchange="ReadCSV()"><br>
-  <button type="button" id="preAdmitButton" class="button">Pre-Admit</button>
-  <button type="button" id="admitButton" class="button">Admitted</button><br>
-  <input type="text" name="Patient" id="patientInput" placeholder="Patient Name or Devero ID" value="" onblur='SubmitPatientName()'>
-  <span id="patientInputCode"></span>
-  <br>
+    <button type="button" id="preAdmitButton" class="button">Pre-Admit</button>
+	<button type="button" id="admitButton" class="button">Admitted</button><br>
+    <input type="text" name="Patient" id="patientInput" placeholder="Patient Name" value="Patient" onblur='SubmitPatientName()'> <br>
   <div style="background-color:cyan; clear: both">
   Discipline:<input type="radio" name="Discipline" value="PT" id="DisciplinePT" checked onblur='SubmitDiscipline()' ><label for="DisciplinePT">PT</label>|<input type="radio" name="Discipline" value="OT" id="DisciplineOT" onblur='SubmitDiscipline()'><label for="DisciplineOT">OT</label>|<input type="radio" name="Discipline" value="RN" id="DisciplineRN" onblur='SubmitDiscipline()'><label for="DisciplineRN">RN</label>|<input type="radio" name="Discipline" value="SN" id="DisciplineSN" onblur='SubmitDiscipline()'><label for="DisciplineSN">SN</label>|<input type="radio" name="Discipline" value="ST" id="DisciplineST" onblur='SubmitDiscipline()'><label for="DisciplineST">ST</label>|<input type="radio" name="Discipline" value="HHA" id="DisciplineHHA" onblur='SubmitDiscipline()'><label for="DisciplineHHA">HHA</label>|<input type="radio" name="Discipline" value="LVN" id="DisciplineLVN" onblur='SubmitDiscipline()'><label for="DisciplineLVN">LVN</label>|<input type="radio" name="Discipline" value="MSW" id="DisciplineMSW" onblur='SubmitDiscipline()'><label for="DisciplineMSW">MSW</label></div><br>
   Order: <form>
@@ -82,12 +73,11 @@
   <button type="button" id="specialRateButton" name="rateButton_name" class="button">Special Rate</button><input id ="specialRateTextid" style="padding: 10px; margin-left: 3px;"type="text" placeholder="+50" onblur='SubmitRate()' hidden>
   <br>
   Recipient: <input type="text" name="Recipient" onblur='SubmitRecipient()'><br><br>
-  <input type="button" class="copyTrigger" onclick="SubmitAll()" data-clipboard-target="#copyTemplate" value="Submit">
+  <input type="button" onclick="SubmitAll()" value="Submit">
 
 
 <p style="font-family: arial; font-size: 12pt; word-wrap: break-word;"> </p>
 <!--WM_COMPOSE_SIGNATURE_START-->
-<span id="copyTemplate">
 <p class="normalP"><span style="font-size: 12pt; font-family: tahoma, arial, helvetica, sans-serif;">Hi <span id="recipient"></span>, </span></p>
 <p class="normalP"> </p>
 <p class="normalP"><span style="font-family: tahoma, arial, helvetica, sans-serif; font-size: 12pt;">Thank you for accepting our patient/s.</span></p>
@@ -100,13 +90,10 @@
 <span id="notes" style="margin: 0px; padding: 0px; color: #000000; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: bold;   letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; widows: 1; font-family: tahoma; font-size: 10pt; word-wrap: break-word;"></span>
 <p style="margin: 0px; padding: 0px; color: #000000; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: bold;   letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; widows: 1; font-family: tahoma; font-size: 10pt; word-wrap: break-word;" id = "isAdmit"> </p>
 <p style="margin: 0px; padding: 0px; color: #000000; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; widows: 1; font-family: tahoma; font-size: 10pt; word-wrap: break-word;"> </p>
-</span>
-<p id="test"></p>
 
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script src="raphael.min.js"></script>
 <script src="wheelnav.min.js"></script>
-<script src="clipboard.min.js"></script>
 <script src="DocWriterScript.js"></script>
 	
 </body>
