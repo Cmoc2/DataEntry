@@ -177,19 +177,21 @@ function PTCheck(discipline){
 	function SubmitPatientName(){
 		//Path A: Devero ID
 		if(Number.isInteger(Number(DocName("Patient")[0].value))){
-			var a = ParseDeveroID(fileInData, Number(DocName("Patient")[0].value));
-			//On Match Found:
-			if(a != null){
-				DocID("patientInputCode").innerHTML = "<green>Match Found.</green>";
-				console.log(a);
-				DocID("patientName").innerHTML = a.Patient;
-				//DocID("test").innerHTML = "Please report to " + Find_Branch(a) + ".";
-				if(a["Care Coordinator"] == "") DocID("patientInputCode").innerHTML += "<red> Verify CC.</red>"
-				DocID("test").innerHTML = "Please report to " + a["Care Coordinator"] + ".";
-			} else{
-				console.error("Devero ID Match Not Found.")
-				DocID("patientInputCode").innerHTML = "<red> Match Not Found.</red>";
-			}
+			if(fileInData == null) alert("No File Chosen.");
+				else{ var a = ParseDeveroID(fileInData, Number(DocName("Patient")[0].value));
+					//On Match Found:
+					if(a != null){
+						DocID("patientInputCode").innerHTML = "<green>Match Found.</green>";
+						console.log(a);
+						DocID("patientName").innerHTML = a.Patient;
+						//DocID("test").innerHTML = "Please report to " + Find_Branch(a) + ".";
+						if(a["Care Coordinator"] == "") DocID("patientInputCode").innerHTML += "<red> Verify CC.</red>"
+						DocID("test").innerHTML = "Please report to " + a["Care Coordinator"] + ".";
+					} else{
+						console.error("Devero ID Match Not Found.")
+						DocID("patientInputCode").innerHTML = "<red> Match Not Found.</red>";
+					}
+				}
 
 		}
 		//Path B: Patient Name
