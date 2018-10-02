@@ -82,11 +82,12 @@
   <button type="button" id="specialRateButton" name="rateButton_name" class="button">Special Rate</button><input id ="specialRateTextid" style="padding: 10px; margin-left: 3px;"type="text" placeholder="+50" onblur='SubmitRate()' hidden>
   <br>
   Recipient: <input type="text" name="Recipient" onblur='SubmitRecipient()'><br><br>
-  <input type="button" onclick="SubmitAll()" value="Submit">
+  <input type="button" class="copyTrigger" onclick="SubmitAll()" data-clipboard-target="#copyTemplate" value="Submit">
 
 
 <p style="font-family: arial; font-size: 12pt; word-wrap: break-word;"> </p>
 <!--WM_COMPOSE_SIGNATURE_START-->
+<span id="copyTemplate">
 <p class="normalP"><span style="font-size: 12pt; font-family: tahoma, arial, helvetica, sans-serif;">Hi <span id="recipient"></span>, </span></p>
 <p class="normalP"> </p>
 <p class="normalP"><span style="font-family: tahoma, arial, helvetica, sans-serif; font-size: 12pt;">Thank you for accepting our patient/s.</span></p>
@@ -99,11 +100,13 @@
 <span id="notes" style="margin: 0px; padding: 0px; color: #000000; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: bold;   letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; widows: 1; font-family: tahoma; font-size: 10pt; word-wrap: break-word;"></span>
 <p style="margin: 0px; padding: 0px; color: #000000; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: bold;   letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; widows: 1; font-family: tahoma; font-size: 10pt; word-wrap: break-word;" id = "isAdmit"> </p>
 <p style="margin: 0px; padding: 0px; color: #000000; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; widows: 1; font-family: tahoma; font-size: 10pt; word-wrap: break-word;"> </p>
+</span>
 <p id="test"></p>
 
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script src="raphael.min.js"></script>
 <script src="wheelnav.min.js"></script>
+<script src="clipboard.min.js"></script>
 <script src="DocWriterScript.js"></script>
 	
 </body>

@@ -112,22 +112,18 @@ d3.select("#specialRateButton")
 var fileInData;
 
 function ReadCSV(){
-	 var reader = new FileReader();
-        reader.onload = function () {
-            fileInData = reader.result;
-        };
-        // start reading the file. When it is done, calls the onload event defined above.
-        // reader.readAsBinaryString(fileInput.files[0]);
-        reader.readAsText(fileIn.files[0], 'utf8');
+	//if file not csv, alert("File Not Accepted");
+	var reader = new FileReader();
+	reader.onload = function () {
+    	fileInData = reader.result;
+    	//parse Text file into CSV Array with D3. Saved in variable.
+    	fileInData = d3.csvParse(fileInData);
+    };
+    // start reading the file. When it is done, calls the onload event defined above.
+    // reader.readAsBinaryString(fileInput.files[0]);
+    reader.readAsText(fileIn.files[0], 'utf8');
 }
 
-	//read in Patient Information with D3. Saved in variable.
-	/*d3.csv(fileInData).then(function(data){
-	fileInData = data;
-	});
-	*/
-	
- 
 function PTCheck(discipline){
 		//Add 24hr note if PT
 		if(discipline == "PT"){
@@ -401,3 +397,5 @@ function BP_Coordinator_until_20181001(x){
 			return "";
 	}
 }
+
+new ClipboardJS('.copyTrigger');
