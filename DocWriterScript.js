@@ -11,7 +11,7 @@ var onBlur = true;  //toggle for automatic updating of individual fields
 //individual variables
 var notes_value = "";
 var specialRate_selection = null;
-var fileIn;
+var fileIn = document.getElementById("monkeyCSVInput");
 /* Section 1: Pre-Admit / Admit */
 
 //Constants
@@ -109,15 +109,25 @@ d3.select("#specialRateButton")
         SubmitRate();
     })
 
-    //read in Patient Information with D3. Saved in variable.
-    var fileInData;
-    function loadCSV(){
-    	fileIn = document.getElementById("monkeyFileInput").value;
-    	d3.csv(fileIn).then(function(data){
-    	fileInData = data;
-    	});
-    }
+var fileInData;
 
+function ReadCSV(){
+	 var reader = new FileReader();
+        reader.onload = function () {
+            fileInData = reader.result;
+        };
+        // start reading the file. When it is done, calls the onload event defined above.
+        // reader.readAsBinaryString(fileInput.files[0]);
+        reader.readAsText(fileIn.files[0], 'utf8');
+}
+
+	//read in Patient Information with D3. Saved in variable.
+	/*d3.csv(fileInData).then(function(data){
+	fileInData = data;
+	});
+	*/
+	
+ 
 function PTCheck(discipline){
 		//Add 24hr note if PT
 		if(discipline == "PT"){
@@ -129,7 +139,7 @@ function PTCheck(discipline){
 			DocID("PTnote").innerHTML = '<p style="margin: 0px; padding: 0px; color: #000000; font-family: tahoma; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: bold; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; widows: 1; font-size: 10pt; word-wrap: break-word;"><span style="font-size: 12pt; font-family: tahoma, arial, helvetica, sans-serif; color: #0000ff;" id="PTnote"> </span></p>';
 			DocID("postSpace").innerHTML ="";
 		}
-	}
+}
 	DocName("Notes")[0].addEventListener("keypress", EnterKey);
 	
 	function AdmitCheck(){
