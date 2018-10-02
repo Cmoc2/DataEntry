@@ -11,8 +11,17 @@ var onBlur = true;  //toggle for automatic updating of individual fields
 //individual variables
 var notes_value = "";
 var specialRate_selection = null;
-var fileIn = "/patientData20180928.csv";
+var fileIn;
 /* Section 1: Pre-Admit / Admit */
+
+//Constants
+const Sunday    = 0;
+const Monday    = 1;
+const Tuesday   = 2;
+const Wednesday = 3;
+const Thursday  = 4;
+const Friday    = 5;
+const Saturday  = 6;
 
 //d3 code for dynamic button selections
 d3.select("#preAdmitButton")
@@ -102,9 +111,12 @@ d3.select("#specialRateButton")
 
     //read in Patient Information with D3. Saved in variable.
     var fileInData;
-    d3.csv(fileIn).then(function(data){
+    function loadCSV(){
+    	fileIn = document.getElementById("monkeyFileInput").value;
+    	d3.csv(fileIn).then(function(data){
     	fileInData = data;
-    });
+    	});
+    }
 
 function PTCheck(discipline){
 		//Add 24hr note if PT
@@ -160,15 +172,19 @@ function PTCheck(discipline){
 		//Path A: Devero ID
 		if(Number.isInteger(Number(DocName("Patient")[0].value))){
 			var a = ParseDeveroID(fileInData, Number(DocName("Patient")[0].value));
+			//On Match Found:
 			if(a != null){
 				DocID("patientInputCode").innerHTML = "<green>Match Found.</green>";
 				console.log(a);
 				DocID("patientName").innerHTML = a.Patient;
-				DocID("test").innerHTML = "Please report to " + a.Agency + ".";
+				//DocID("test").innerHTML = "Please report to " + Find_Branch(a) + ".";
+				if(a["Care Coordinator"] == "") DocID("patientInputCode").innerHTML += "<red> Verify CC.</red>"
+				DocID("test").innerHTML = "Please report to " + a["Care Coordinator"] + ".";
 			} else{
 				console.error("Devero ID Match Not Found.")
 				DocID("patientInputCode").innerHTML = "<red> Match Not Found.</red>";
 			}
+
 		}
 		//Path B: Patient Name
 		else{ 
@@ -254,7 +270,7 @@ function ParseDeveroID(data, monkeyInput){
 	console.log(monkeyInput);
 	var x = null;
 	for(var i = 0; i < data.length; i++){
-		if(Number(data[i]["DeveroID"]) == monkeyInput){
+		if(Number(data[i]["MR#"]) == monkeyInput){
 			console.log("Match Found.");
 			return data[i];
 		}
@@ -263,18 +279,20 @@ function ParseDeveroID(data, monkeyInput){
 }
 
 function LA_Coordinator(x){
-	switch(x){
-		case 0:
-		case 4:
+	var referralDate = new Date(x["Referral Date"]);
+
+	switch(referralDate.getDay()){
+		case Sunday:
+		case Thursday:
 			return "Darwin";
 			break;
-		case 1:
-		case 5:
-		case 6:
+		case Monday:
+		case Friday:
+		case Saturday:
 			return "Marissa";
 			break;
-		case 2:
-		case 3:
+		case Tuesday:
+		case Wednesday:
 			return "Klarizza";
 			break;
 		default: 
@@ -283,31 +301,93 @@ function LA_Coordinator(x){
 	}
 }
 
+function BP_Coordinator(x){
+	var referralDate = new Date(x["Referral Date"]);
+	
+	//if the referral Date is between "Since beginning" and Oct 1, 2018
+	/*if(Date.parse(referralDate) < Date.parse(Date(10/01/2018))){
+		BP_Coordinator_until_20181001(x);
+	} else{
+	//else do what is current:*/
+		switch(referralDate.getDay()){
+			case Saturday:
+			case Sunday:
+			case Tuesday:
+			case Thursday:
+				return "Angela";
+				break;
+			case Monday:
+			case Wednesday:
+			case Friday:
+				return "Gladys";
+				break;
+			default: 
+				alert("Some Kind of error in function BP_Coordinator");
+				console.error("Error in function BP_Coordinator");
+				console.error(referralDate);
+				return "";
+		}
+	//}
+}
+
 function Find_Branch(x){
+	/*
+	Will need to add a timeline: CC/week do change, so our referrals need to change on CC Updates.
+	*/
 	switch(x.Team){
 		case "COM KP Panorama":
 		case "COM KP Woodland Hills":
-			return "Andrea Aquino"
+			return "Andrea Aquino";
 			break;
-		case: "COM KP Los Angeles":
+		case "COM KP Los Angeles":
 			return LA_Coordinator(x);
 			break;
-		case: "COM KP Baldwin Park"
+		case "COM KP Baldwin Park":
 			return BP_Coordinator(x);
 			break;
-		case: "COM KP South Bay":
+		case "COM KP South Bay":
 			return "Jann";
 			break;
-		case: "COM KP Fontana":
+		case "COM KP Fontana":
 			return "Marcela";
 			break;
-		case: "COM KP Downey":
+		case "COM KP Downey":
 			return "Catherine";
 			break;
-		case: "COM Caremore":
+		case "COM Caremore":
 			return "Jovana"
 			break;
 		default:
-			alert("Some Kind of error in function Find_Branch");
+			alert("Some Kind of Error in function Find_Branch");
+			console.error("Error in function Find_Branch");
+			console.log(x.Team);
 			return "";
+	}
+}
+
+
+
+function BP_Coordinator_until_20181001(x){
+	var referralDate = new Date(x["Referral Date"]);
+
+	switch(referralDate.getDay()){
+		case Saturday:
+		case Sunday:
+			return "Massiel";
+			break;
+		case Monday:
+		case Wednesday:
+		case Friday:
+			return "Gladys";
+			break;
+		case Tuesday:
+		case Thursday:
+			return "Andrea";
+			break;
+		default: 
+			alert("Some Kind of error in function BP_Coordinator_until_20181001");
+			console.error("Error in function BP_Coordinator_until_20181001.");
+			console.error(referralDate);
+			return "";
+	}
 }
